@@ -1,4 +1,8 @@
-use std::{io::{stdin, Read, stdout, Write}, sync::{OnceLock, Mutex, Arc}, collections::VecDeque};
+use std::{
+    collections::VecDeque,
+    io::{stdin, stdout, Read, Write},
+    sync::{Arc, Mutex, OnceLock},
+};
 
 use crossterm::terminal::disable_raw_mode;
 
@@ -594,23 +598,25 @@ fn handle_mem_load_control(addy: u32) -> u32 {
     }
 }
 
-static DUMB_INPUT: OnceLock<Arc<Mutex<VecDeque<u8>>>>  = std::sync::OnceLock::new();
+static DUMB_INPUT: OnceLock<Arc<Mutex<VecDeque<u8>>>> = std::sync::OnceLock::new();
 
-fn get_bruh() -> Arc<Mutex<VecDeque<u8>>>{
-    DUMB_INPUT.get_or_init(||{
-        let arc = Arc::new(Mutex::new(VecDeque::new()));
-        let clone = arc.clone();
-        std::thread::spawn(move ||{
-            while let Some(Ok(byte)) = stdin().bytes().next(){
-                if byte == 3{
-                    disable_raw_mode().unwrap();
-                    std::process::exit(0);
+fn get_bruh() -> Arc<Mutex<VecDeque<u8>>> {
+    DUMB_INPUT
+        .get_or_init(|| {
+            let arc = Arc::new(Mutex::new(VecDeque::new()));
+            let clone = arc.clone();
+            std::thread::spawn(move || {
+                while let Some(Ok(byte)) = stdin().bytes().next() {
+                    if byte == 3 {
+                        disable_raw_mode().unwrap();
+                        std::process::exit(0);
+                    }
+                    arc.lock().unwrap().push_back(byte);
                 }
-                arc.lock().unwrap().push_back(byte);
-            }
-        });
-        clone
-    }).clone()
+            });
+            clone
+        })
+        .clone()
 }
 
 fn read_kb_byte() -> u8 {
@@ -618,7 +624,7 @@ fn read_kb_byte() -> u8 {
     byte
 }
 
-fn is_kb_hit() -> bool { 
+fn is_kb_hit() -> bool {
     !get_bruh().lock().unwrap().is_empty()
 }
 

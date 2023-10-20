@@ -1,8 +1,13 @@
 use std::{
-    env, fs::File, io::Read, mem::size_of, num::ParseIntError, os::unix::prelude::MetadataExt,
+    env,
+    fs::File,
+    io::{Read, Write},
+    mem::size_of,
+    num::ParseIntError,
+    os::unix::prelude::MetadataExt,
+    process::Stdio,
     str::FromStr,
 };
-
 
 use crate::mini_rv32ima::MiniRV32IMAState;
 
@@ -300,10 +305,9 @@ fn main() {
         }
     }
 
-
     let start = std::time::Instant::now();
     let mut last_time_us = 0u128;
-    let steps = if options.single_step {1} else {1024};
+    let steps = if options.single_step { 1 } else { 1024 };
     loop {
         let elapsed;
         if options.fix_update {
@@ -325,7 +329,10 @@ fn main() {
         //     }
         // }
 
-        if !matches!(core.pc, 0x800000b8 | 0x800000b4 | 0x800000b0) && options.single_step && core.cycle > 0x0000000003c53e60 {
+        if !matches!(core.pc, 0x800000b8 | 0x800000b4 | 0x800000b0)
+            && options.single_step
+            && core.cycle > 0x0000000003c53e60
+        {
             // core.dump_state(&ram);
         }
 
