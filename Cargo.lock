@@ -69,6 +69,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "device_tree"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f18f717c5c7c2e3483feb64cccebd077245ad6d19007c2db0fd341d38595353c"
+
+[[package]]
 name = "hermit-abi"
 version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -105,9 +111,11 @@ version = "0.1.0"
 dependencies = [
  "atty",
  "crossterm",
+ "device_tree",
  "raw_tty",
  "signal-hook",
  "termion",
+ "vm-fdt",
 ]
 
 [[package]]
@@ -300,6 +308,12 @@ name = "unicode-xid"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc72304796d0818e357ead4e000d19c9c174ab23dc11093ac919054d20a6a7fc"
+
+[[package]]
+name = "vm-fdt"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e21282841a059bb62627ce8441c491f09603622cd5a21c43bfedc85a2952f23"
 
 [[package]]
 name = "wasi"
