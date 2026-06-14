@@ -232,7 +232,8 @@ impl MiniRV32IMAState {
                                             None => print!("#[INVALID_CHAR 0x{:X}]", rs2),
                                         },
                                         _ => {
-                                            // handle_mem_store_control
+                                            // todo!()
+                                            // handle_mem
                                         }
                                     }
                                 } else {
