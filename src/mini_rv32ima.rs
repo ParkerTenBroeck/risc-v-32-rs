@@ -1,7 +1,7 @@
 use std::{
     collections::VecDeque,
     io::{stdin, stdout, Read, Write},
-    sync::{Arc, Mutex, OnceLock},
+    sync::{Arc, Mutex, OnceLock}, thread::Thread,
 };
 
 use crossterm::terminal::disable_raw_mode;
@@ -345,9 +345,10 @@ impl MiniRV32IMAState {
                         0x73 => {
                             let csrno = ir >> 20;
                             let microop = (ir >> 12) & 0x7;
+                            
                             if microop & 3 != 0 {
                                 //zicsr function
-                                let rslimm = (ir >> 15) & 0x1f;
+                                let rslimm = (ir >> 15) & 0x1F;
                                 let rs1 = self.regs[rslimm as usize];
                                 let mut writeval = rs1;
 
@@ -550,6 +551,7 @@ impl MiniRV32IMAState {
                 }
             };
         }
+        
         let pc: u32 = self.pc;
         let pc_offset: u32 = pc - RAM_IMAGE_OFFSET;
         let mut ir: u32 = 0;

@@ -8,7 +8,7 @@ use std::{
     process::Stdio,
     str::FromStr,
 };
-
+;
 use crate::mini_rv32ima::MiniRV32IMAState;
 
 pub mod mini_rv32ima;
@@ -361,5 +361,5 @@ fn main() {
 }
 
 fn capture_keyboard_input() {
-    crossterm::terminal::enable_raw_mode().unwrap();
+    // crossterm::terminal::enable_raw_mode().unwrap();
 }
